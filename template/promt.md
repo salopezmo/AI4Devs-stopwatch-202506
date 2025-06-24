@@ -1,6 +1,7 @@
 
-#ChatBot: ChatGPT
-#Promt
+#ChatBot: 
+ChatGPT
+
 #Rol
 Toma el rol de experto en desarrollo de paginas web javascript. 
 #
