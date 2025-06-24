@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timer and Countdown</title>
+  <title>Cronómetro Digital</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      background-color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -15,33 +15,66 @@
       height: 100vh;
     }
     .cronometro {
-      background: white;
+      background: #e8ecff;
       padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 2rem;
+      border: 5px solid #333;
       text-align: center;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
     }
     #display {
-      font-size: 3rem;
-      margin-bottom: 1rem;
+      font-size: 5rem;
+      font-weight: bold;
+      color: black;
+      margin-bottom: 1.5rem;
     }
-    button {
-      padding: 0.5rem 1rem;
-      margin: 0.5rem;
-      font-size: 1rem;
+    .btn {
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 1rem 2rem;
+      margin: 1rem;
+      border: none;
+      border-radius: 1rem;
       cursor: pointer;
+      width: 150px;
+    }
+    .start {
+      background-color: limegreen;
+      color: black;
+    }
+    .stop {
+      background-color: gold;
+      color: black;
+    }
+    .clear {
+      background-color: red;
+      color: black;
+    }
+    .fast {
+      background-color: orange;
+      color: black;
+    }
+    .mode-selector {
+      margin-top: 1rem;
+      font-size: 1.2rem;
     }
   </style>
 </head>
 <body>
   <div class="cronometro">
     <div id="display">00:00:00</div>
-    <button onclick="iniciar()">Iniciar</button>
-    <button onclick="finalizar()">Finalizar</button>
-    <button onclick="borrar()">Borrar</button>
-    <br>
-    <label><input type="radio" name="modo" value="adelante" checked> Adelante</label>
-    <label><input type="radio" name="modo" value="atras"> Atrás</label>
+    <div>
+      <button class="btn start" onclick="iniciar()">Start</button>
+      <button class="btn stop" onclick="finalizar()">Stop</button>
+      <button class="btn clear" onclick="borrar()">Clear</button>
+    </div>
+    <div>
+      <button class="btn fast" onclick="avanzarRapido()">Avanzar Rápido</button>
+    </div>
+    <div class="mode-selector">
+      <label><input type="radio" name="modo" value="adelante" checked> Adelante</label>
+      <label><input type="radio" name="modo" value="atras" id="modoAtras" disabled> Atrás</label>
+    </div>
   </div>
 
   <script>
@@ -54,6 +87,7 @@
       const minutos = String(Math.floor((tiempo % 3600) / 60)).padStart(2, '0');
       const segundos = String(tiempo % 60).padStart(2, '0');
       document.getElementById('display').textContent = `${horas}:${minutos}:${segundos}`;
+      document.getElementById('modoAtras').disabled = tiempo === 0;
     }
 
     function iniciar() {
@@ -87,6 +121,13 @@
       tiempo = 0;
       actualizarDisplay();
     }
+
+    function avanzarRapido() {
+      tiempo += 10;
+      actualizarDisplay();
+    }
+
+    actualizarDisplay();
   </script>
 </body>
 </html>
