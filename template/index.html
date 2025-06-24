@@ -1,13 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Timer and Countdown</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timer and Countdown</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .cronometro {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    #display {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-<h1>Timer and Countdown</h1>
-<script src="script.js"></script>
+  <div class="cronometro">
+    <div id="display">00:00:00</div>
+    <button onclick="iniciar()">Iniciar</button>
+    <button onclick="finalizar()">Finalizar</button>
+    <button onclick="borrar()">Borrar</button>
+    <br>
+    <label><input type="radio" name="modo" value="adelante" checked> Adelante</label>
+    <label><input type="radio" name="modo" value="atras"> Atrás</label>
+  </div>
+
+  <script>
+    let tiempo = 0;
+    let intervalo = null;
+    let modo = 'adelante';
+
+    function actualizarDisplay() {
+      const horas = String(Math.floor(tiempo / 3600)).padStart(2, '0');
+      const minutos = String(Math.floor((tiempo % 3600) / 60)).padStart(2, '0');
+      const segundos = String(tiempo % 60).padStart(2, '0');
+      document.getElementById('display').textContent = `${horas}:${minutos}:${segundos}`;
+    }
+
+    function iniciar() {
+      const radios = document.getElementsByName('modo');
+      for (const radio of radios) {
+        if (radio.checked) {
+          modo = radio.value;
+          break;
+        }
+      }
+
+      if (intervalo) return;
+
+      intervalo = setInterval(() => {
+        if (modo === 'adelante') {
+          tiempo++;
+        } else {
+          if (tiempo > 0) tiempo--;
+        }
+        actualizarDisplay();
+      }, 1000);
+    }
+
+    function finalizar() {
+      clearInterval(intervalo);
+      intervalo = null;
+    }
+
+    function borrar() {
+      finalizar();
+      tiempo = 0;
+      actualizarDisplay();
+    }
+  </script>
 </body>
 </html>
